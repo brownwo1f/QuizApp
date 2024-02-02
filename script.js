@@ -5,7 +5,7 @@ const questions = [
             {text:"Sheep", correct: false},
             {text:"Elephant", correct: false},
             {text:"Cow", correct: false},
-            {text:"Bengal Tiger", correct: true}
+            {text:"Bengal Tiger", correct: true},
         ]
     },
     {
@@ -14,26 +14,26 @@ const questions = [
             {text:"Assam", correct: true},
             {text:"Sikkim", correct: false},
             {text:"Arunachal Pradesh", correct: false},
-            {text:"West Bengal", correct: false}
+            {text:"West Bengal", correct: false},
         ]
     },
     {
         question: "What is the real color of the Sun?",
-        answer: [
+        answers: [
             {text:"Yellow", correct: false},
             {text:"White", correct: true},
             {text:"Orange", correct: false},
-            {text:"Red", correct: false}
+            {text:"Red", correct: false},
 
         ]
     },
     {
         question: "What is the largest organ in the human body?",
-        answer: [
+        answers: [
             {text:"Lungs", correct: false},
             {text:"Skin", correct: true},
             {text:"Brain", correct: false},
-            {text:"Stomach", correct: false}
+            {text:"Stomach", correct: false},
             
         ]
     }
@@ -52,17 +52,18 @@ function startQuiz(){
     showQuestion();
 }
 function showQuestion(){
+    resetState();
     let currentQuestion = questions[currentQuestionIndex];
-    let questionNo = currentQuestionIndex +1;
-    questionElement.innerHTML = questionNo + ". " +currentQuestion.question;
+    let questionNo = currentQuestionIndex + 1;
+    questionElement.innerHTML = questionNo + ". " + currentQuestion.question;
 
-    currentQuestion.answer.forEach(answer =>{
+    currentQuestion.answers.forEach(answer =>{
         const button = document.createElement("button");
         button.innerHTML = answer.text;
         button.classList.add("btn");
         answerButton.appendChild(button);
         if(answer.correct){
-            button.dataset.correct = answer.correct
+            button.dataset.correct = answer.correct;
         }
         button.addEventListener("click", selectAnswer);
 
@@ -77,7 +78,7 @@ function resetState(){
  
 function selectAnswer(e){
     const selectedBtn = e.target;
-    const isCorrect = selectedBtn.correct === "true";
+    const isCorrect = selectedBtn.dataset.correct === "true";
     if(isCorrect){
         selectedBtn.classList.add("correct");
         score++;
@@ -93,14 +94,7 @@ function selectAnswer(e){
     nextButton.style.display = "block";
 }
 
-function handleNextButton(){
-    currentQuestionIndex++;
-    if(currentQuestionIndex < question.length){
-        showQuestion();
-    }else{
-        showScore();
-    }
-}
+
 
 function showScore(){
     resetState();
@@ -108,8 +102,16 @@ function showScore(){
     nextButton.innerHTML = "Play Again";
     nextButton.style.display = "block";
 }
+function handleNextButton(){
+    currentQuestionIndex++;
+    if(currentQuestionIndex < questions.length){
+        showQuestion();
+    }else{
+        showScore();
+    }
+}
 nextButton.addEventListener("click", () =>{
-    if(currentQuestionIndex< question.length){
+    if(currentQuestionIndex < questions.length){
         handleNextButton();
     }else{
         startQuiz();

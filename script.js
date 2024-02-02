@@ -1,0 +1,87 @@
+const questions = [
+    {
+        question: "What is the national animal of India?",
+        answers: [
+            {text: "Sheep", correct: false},
+            {text: "Elephant", correct: false},
+            {text: "Cow", correct: false},
+            {text: "Bengal Tiger", correct: true}
+        ]
+    },
+    {
+        question: "Which Indian state is famous for its tea gardens and is known as the \“Tea State of India\”\?",
+        answers: [
+            {text: "Assam", correct: true},
+            {text: "Sikkim", correct: false},
+            {text: "Arunachal Pradesh", correct: false},
+            {text: "West Bengal", correct: false}
+        ]
+    },
+    {
+        question: "What is the real color of the Sun?",
+        answer: [
+            {text: "Yellow", correct: false},
+            {text: "White", correct: true},
+            {text: "Orange", correct: false},
+            {text: "Red", correct: false}
+
+        ]
+    },
+    {
+        question: "What is the largest organ in the human body?",
+        answer: [
+            {text: "Lungs", correct: false},
+            {text: "Skin", correct: true},
+            {text: "Brain", correct: false},
+            {text: "Stomach", correct: false}
+            
+        ]
+    }
+];
+const questionElement = document.getElementById("question");
+const answerButton = document.getElementById("answer");
+const nextButton = document.getElementById("next-btn");
+
+let currentQuestionIndex = 0;
+let score = 0;
+
+function startQuiz(){
+    currentQuestionIndex = 0;
+    score = 0;
+    nextButton.innerHTML = "Next";
+    showQuestion();
+}
+function showQuestion(){
+    let currentQuestion = questions[currentQuestionIndex];
+    let questionNo = currentQuestionIndex +1;
+    questionElement.innerHTML = questionNo + ". " +currentQuestion.question;
+
+    currentQuestion.answer.forEach(answer =>{
+        const button = document.createElement("button");
+        button.innerHTML = answer.text;
+        button.classList.add("btn");
+        answerButton.appendChild(button);
+        if(answer.correct){
+            button.dataset.correct = answer.correct
+        }
+        button.addEventListener("click", selectAnswer);
+
+    });
+}
+function resetState(){
+    nextButton.style.display = "none";
+    while(answerButton.firstChild){
+        answerButton.removeChild(answerButton.firstChild);
+    }
+}
+ 
+function selectAnswer(e){
+    const selectedBtn = e.target;
+    const isCorrect = selectedBtn.correct === "true";
+    if(isCorrect){
+        selectedBtn.classList.add("correct");
+    }else{
+        selectedBtn.classList.add("incorrect");
+    }
+}
+startQuiz();

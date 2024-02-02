@@ -2,38 +2,38 @@ const questions = [
     {
         question: "What is the national animal of India?",
         answers: [
-            {text: "Sheep", correct: false},
-            {text: "Elephant", correct: false},
-            {text: "Cow", correct: false},
-            {text: "Bengal Tiger", correct: true}
+            {text:"Sheep", correct: false},
+            {text:"Elephant", correct: false},
+            {text:"Cow", correct: false},
+            {text:"Bengal Tiger", correct: true}
         ]
     },
     {
         question: "Which Indian state is famous for its tea gardens and is known as the \“Tea State of India\”\?",
         answers: [
-            {text: "Assam", correct: true},
-            {text: "Sikkim", correct: false},
-            {text: "Arunachal Pradesh", correct: false},
-            {text: "West Bengal", correct: false}
+            {text:"Assam", correct: true},
+            {text:"Sikkim", correct: false},
+            {text:"Arunachal Pradesh", correct: false},
+            {text:"West Bengal", correct: false}
         ]
     },
     {
         question: "What is the real color of the Sun?",
         answer: [
-            {text: "Yellow", correct: false},
-            {text: "White", correct: true},
-            {text: "Orange", correct: false},
-            {text: "Red", correct: false}
+            {text:"Yellow", correct: false},
+            {text:"White", correct: true},
+            {text:"Orange", correct: false},
+            {text:"Red", correct: false}
 
         ]
     },
     {
         question: "What is the largest organ in the human body?",
         answer: [
-            {text: "Lungs", correct: false},
-            {text: "Skin", correct: true},
-            {text: "Brain", correct: false},
-            {text: "Stomach", correct: false}
+            {text:"Lungs", correct: false},
+            {text:"Skin", correct: true},
+            {text:"Brain", correct: false},
+            {text:"Stomach", correct: false}
             
         ]
     }
@@ -80,8 +80,39 @@ function selectAnswer(e){
     const isCorrect = selectedBtn.correct === "true";
     if(isCorrect){
         selectedBtn.classList.add("correct");
+        score++;
     }else{
         selectedBtn.classList.add("incorrect");
     }
+    Array.from(answerButton.children).forEach(button =>{
+        if(button.dataset.correct === "true"){
+            button.classList.add("correct");
+        }
+        button.disabled = true;
+    });
+    nextButton.style.display = "block";
 }
+
+function handleNextButton(){
+    currentQuestionIndex++;
+    if(currentQuestionIndex < question.length){
+        showQuestion();
+    }else{
+        showScore();
+    }
+}
+
+function showScore(){
+    resetState();
+    questionElement.innerHTML= `You scored ${score} out of ${questions.length}!`;
+    nextButton.innerHTML = "Play Again";
+    nextButton.style.display = "block";
+}
+nextButton.addEventListener("click", () =>{
+    if(currentQuestionIndex< question.length){
+        handleNextButton();
+    }else{
+        startQuiz();
+    }
+});
 startQuiz();
